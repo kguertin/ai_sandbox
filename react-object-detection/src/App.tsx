@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import * as mobilenetModel from "@tensorflow-models/mobilenet";
+import "@tensorflow/tfjs";
+import "./App.css";
 
 function App() {
+  const [mobilenet, setMobilenet] = useState<any>();
+  const [modelLoaded, setModelLoaded] = useState<boolean>(false);
+
+  const loadMobilenet = async () => {
+    try {
+      const model = await mobilenetModel.load();
+      setMobilenet(model);
+      setModelLoaded(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    loadMobilenet();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <p id="status">{`${modelLoaded ? "Model Loaded" : "Loading Model"}`}</p>
+      <div className="formContainer">
+        <input type="file" accept="image/*" className="uploadInput" />
+      </div>
     </div>
   );
 }
