@@ -1,1 +1,4 @@
-print("Hello World")
+import os
+from dotenv import load_dotenv
+
+print(os.getenv('OPENAI_KEY'))
