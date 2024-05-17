@@ -19,7 +19,10 @@ docs = loader.load_and_split(text_splitter)
 
 #  This calculates embeddings and therefore runs on OpenAI costing money
 db = Chroma.from_documents(
-    docs, embedding=embeddings, persist_directory="emb"
+    docs, 
+    embedding=embeddings, 
+    persist_directory="emb"
+
 )
 
 results = db.similarity_search(
